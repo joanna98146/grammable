@@ -12,6 +12,7 @@ end
      get :edit, params: { id: 'SWAG' }
      expect(response).to have_http_status(:not_found)
   end
+end
   
   
   
@@ -77,4 +78,4 @@ describe "grams#index action" do
       expect(gram_count).to eq Gram.count
   end
   end
-end 
+end
