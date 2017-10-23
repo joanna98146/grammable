@@ -28,6 +28,15 @@ RSpec.describe GramsController, type: :controller do
   
   
   describe "grams#update action" do
+    
+    it "shouldn't let users who didn't create the gram update it" do
+    gram = FactoryGirl.create(:gram)
+    user = FactoryGirl.create(:user)
+    sign_in user
+    patch :update, params: { id: gram.id, gram: { message: 'wahoo' } }
+    expect(response).to have_http_status(:forbidden)
+  end
+  
     it "shouldn't let unauthenticated users create a gram" do
       gram = FactoryGirl.create(:gram)
       patch :update, params: { id: gram.id, gram: { message: "Hello" } }
@@ -62,12 +71,21 @@ RSpec.describe GramsController, type: :controller do
   
 
   describe "grams#edit action" do
-
+    
+  it "shouldn't let a user who did not create the gram edit a gram" do
+  gram = FactoryGirl.create(:gram)
+  user = FactoryGirl.create(:user)
+  sign_in user
+  get :edit, params: { id: gram.id }
+  expect(response).to have_http_status(:forbidden)
+  end
+  
     it "shouldn't let unauthenticated users edit a gram" do
       gram = FactoryGirl.create(:gram)
       get :edit, params: { id: gram.id }
       expect(response).to redirect_to new_user_session_path
     end
+    
     it "should successfully show the edit form if the gram is found" do
       gram = FactoryGirl.create(:gram)
       sign_in gram.user
