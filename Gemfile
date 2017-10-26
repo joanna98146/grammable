@@ -62,3 +62,5 @@ gem 'simple_form'
 gem 'devise'
 gem 'carrierwave', '~> 1.0'
 gem 'popper_js', '~> 1.11.1'
+gem "figaro"
+gem "fog-aws"
